@@ -1,0 +1,7 @@
+Flask
+Werkzeug
+opencv-python
+numpy
+imutils
+pytesseract
+requests

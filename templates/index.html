@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Information Lookup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Heading styles */
+        h1 {
+            text-align: center;
+            color: #01579b;
+            margin: 20px 0;
+        }
+
+        /* Form container */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px; /* Increased width */
+            width: 90%; /* Full width with max limit */
+            margin: 0 auto;
+            padding: 30px; /* Increased padding */
+            background-color: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        /* Label styles */
+        label {
+            font-size: 20px; /* Increased font size */
+            color: #01579b;
+            margin-bottom: 10px; /* Space between label and file input */
+        }
+
+        /* Input styles */
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #b3e5fc; /* Border for better visibility */
+            border-radius: 5px;
+            display: block;
+            width: 100%;
+        }
+
+        input[type="submit"] {
+            padding: 12px 25px; /* Increased padding */
+            font-size: 18px; /* Increased font size */
+            color: #ffffff;
+            background-color: #01579b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0288d1;
+        }
+
+        /* Styling for uploaded image container */
+        .uploaded-image {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 300px; /* Restrict the maximum width */
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            background-color: #ffffff;
+            margin-top: 20px;
+        }
+
+        .uploaded-image img {
+            width: 100%; /* Make the image fit within the container */
+            height: auto; /* Maintain aspect ratio */
+            max-width: 200px; /* Restrict the maximum width of the image */
+            max-height: 200px; /* Restrict the maximum height of the image */
+            object-fit: contain; /* Ensures the image fits within its container */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow around the image */
+        }
+
+        .message {
+            display: none;
+            font-size: 16px;
+            color: #d32f2f;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vehicle Information Lookup</h1>
+    <form id="vehicleForm" action="/upload" method="post" enctype="multipart/form-data">
+        <div class="uploaded-image">
+            <img id="uploadedImage" src="" alt="Uploaded Image">
+        </div>
+        <div class="message" id="message">File uploaded. Please upload an image.</div>
+        <label for="reg_no" id="label">Upload Vehicle Registration Image:</label><br>
+        <input type="file" id="reg_no" name="reg_no" accept="image/*" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        document.getElementById('reg_no').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            var uploadedImage = document.getElementById('uploadedImage');
+            var uploadedImageContainer = document.querySelector('.uploaded-image');
+            var label = document.getElementById('label');
+            var message = document.getElementById('message');
+            var reader = new FileReader();
+
+            if (file) {
+                // Check if the file is an image
+                if (file.type.startsWith('image/')) {
+                    reader.onload = function(e) {
+                        uploadedImage.src = e.target.result;
+                        uploadedImageContainer.style.display = 'flex'; // Show image container
+                        label.style.display = 'none'; // Hide the label
+                        message.style.display = 'none'; // Hide the message
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    // Show message for non-image files
+                    uploadedImageContainer.style.display = 'none'; // Hide image container
+                    label.style.display = 'none'; // Hide the label
+                    message.style.display = 'block'; // Show the message
+                }
+            } else {
+                uploadedImageContainer.style.display = 'none'; // Hide image container
+                label.style.display = 'block'; // Show the label
+                message.style.display = 'none'; // Hide the message
+            }
+        });
+
+        // Clear messages and reset preview on page load
+        window.addEventListener('load', function() {
+            document.querySelector('.uploaded-image').style.display = 'none';
+            document.getElementById('label').style.display = 'block';
+            document.getElementById('message').style.display = 'none';
+            document.getElementById('reg_no').value = ''; // Clear file input
+        });
+    </script>
+</body>
+</html>

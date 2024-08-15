@@ -1,0 +1,31 @@
+/* File input container styling */
+.file-input-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* Adjust as needed */
+    margin: 10px 0;
+}
+
+/* File input styling */
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #b3e5fc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ffffff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Display the file name */
+.file-name {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    font-size: 16px;
+    color: #01579b;
+}
